@@ -1,92 +1,114 @@
 from typing import Any, Callable
 
+
 class BinaryNode:
     value: Any
-    left_child: 'BinaryNode'
-    right_child: 'BinaryNode'
+    left_child : 'BinaryNode'
+    right_child : 'BinaryNode'
 
-    def __init__(self,value: Any):
-        self.value= value
-        self.left_child=None
-        self.right_child=None
+    def __init__(self, value: Any):
+        self.value = value
+        self.left_child = None
+        self.right_child = None
 
     def __str__(self):
         wynik = str(self.value)
         return wynik
 
     def is_leaf(self):
-        if(self.left_child is None and self.right_child is None):
+        if (self.right_child is None and self.left_child is None):
             return True
-        else:
-            return False
+        return False
 
 
-
-    def add_left_child(self, value: Any):
-        self.left_child=value
-
+    def add_lef_child(self, value: Any):
+        self.left_child = value
 
 
-    def add_right_child(self,value: Any):
-        self.right_child=value
+    def add_right_child(self, value: Any):
+        self.right_child = value
 
 
-    # def traverse_in_order(self, visit: Callable[[Any], None]):
-    #
-    #     if(self.left_child is not None):
-    #         while self.left_child
-    #
-    #     visit(self)
-    # def traverse_pre_order(self, visit: Callable[[Any], None]):
-    #     x= self
-    #     if(x.left_child):
-    #         while(x.left_child is not None):
-    #             x.traverse_pre_order(visit)
-    #             x=x.left_child
+    def treverse_in_order(self, visit:Callable[[Any],None]):
+        if visit == None:
+            return
+
+        if self.left_child:
+            self.left_child.traverse_post_order()
+
+        visit(self)
+
+        if self.right_child:
+            self.right_child.traverse_post_order()
 
 
 
 
+    def traverse_post_order(self, visit: Callable[[Any], None]):
+        if visit == None:
+            return
 
+
+        if self.left_child:
+            self.left_child.traverse_post_order()
+
+        if self.right_child:
+            self.right_child.traverse_post_order()
+
+        visit(self)
+
+
+
+    def traverse_pre_order(self, visit: Callable[[Any], None]):
+        trase = []
+
+        trasa.append(self.value)
+
+        if self.left_child:
+            trase += self.left_child.treverse_in_order()
+
+        if self.right_child:
+            trase += self.right_child.treverse_in_order()
 
 
 
 class BinaryTree:
     root: BinaryNode
 
-    def __init__(self,root):
-        self.root=root
+    def __init__(self, root):
+        self.root = root
+
+    def traverse_in_order(self, visit: Callable[[Any], None]):
+        self.root.treverse_in_order(visit)
+
+    def traverse_post_order(self, visit: Callable[[Any], None]):
+        self.root.treverse_post_order(visit)
+
+    def traverse_pre_order(self, visit: Callable[[Any], None]):
+        self.root.treverse_pre_order(visit)
 
 
+    # def show(self):
+    #     pass
 
 
-def fun(x):
-    print(x)
+ten = BinaryNode(10)
+tree = BinaryTree(ten)
+nine = BinaryNode(9)
+one = BinaryNode(1)
+three = BinaryNode(3)
+two = BinaryNode(2)
+four = BinaryNode(4)
+six = BinaryNode(6)
 
 
-ten=BinaryNode(10)
-
-tree=BinaryTree(ten)
-
-nine=BinaryNode(9)
-ten.add_left_child(nine)
-
-one=BinaryNode(1)
-nine.add_left_child(one)
-
-three=BinaryNode(3)
-nine.add_right_child(three)
-
-two=BinaryNode(2)
 ten.add_right_child(two)
-
-four=BinaryNode(4)
-two.add_left_child(four)
-
-six=BinaryNode(6)
+ten.add_lef_child(nine)
+nine.add_lef_child(one)
+nine.add_right_child(three)
+two.add_lef_child(four)
 two.add_right_child(six)
 
-print(six)
 
 assert tree.root.value == 10
 assert tree.root.right_child.value == 2
