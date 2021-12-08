@@ -1,0 +1,173 @@
+from typing import Any, Callable
+
+
+class BinaryNode:
+    value: Any
+    left_child : 'BinaryNode'
+    right_child : 'BinaryNode'
+
+    def __init__(self, value: Any):
+        self.value = value
+        self.left_child = None
+        self.right_child = None
+
+    def __str__(self):
+        wynik = str(self.value)
+        return wynik
+
+    def is_leaf(self):
+        if (self.right_child is None and self.left_child is None):
+            return True
+        return False
+
+
+    def add_lef_child(self, value: Any):
+        self.left_child = value
+
+
+    def add_right_child(self, value: Any):
+        self.right_child = value
+
+
+    def treverse_in_order(self, visit:Callable[[Any],None]):
+        if visit == None:
+            return
+
+        if self.left_child:
+            self.left_child.traverse_post_order()
+
+        visit(self)
+
+        if self.right_child:
+            self.right_child.traverse_post_order()
+
+
+
+
+    def traverse_post_order(self, visit: Callable[[Any], None]):
+        if visit == None:
+            return
+
+
+        if self.left_child:
+            self.left_child.traverse_post_order()
+
+        if self.right_child:
+            self.right_child.traverse_post_order()
+
+        visit(self)
+
+
+
+    def traverse_pre_order(self, visit: Callable[[Any], None]):
+        if visit == None:
+            return
+
+        visit(self)
+
+        if self.left_child:
+            self.left_child.treverse_in_order()
+
+        if self.right_child:
+            self.right_child.treverse_in_order()
+
+    # def Level(self, value ,level ):
+    #
+    #     if (self == None):
+    #         return 0
+    #
+    #     if (self.value == value):
+    #         return level
+    #
+    #     lower_level = Level(self.left_child, value, level + 1)
+    #     if (lower_level != 0):
+    #         return lower_level
+    #
+    #     lower_level = Level(self.right_child, value, level + 1)
+    #     return lower_level
+    #
+    # def getLevel(self, value):
+    #     # calls the function Level with default level 1
+    #     return Level(self, value, 1)
+
+class BinaryTree:
+    root: BinaryNode
+
+    def __init__(self, root):
+        self.root = root
+
+    def traverse_in_order(self, visit: Callable[[Any], None]):
+        self.root.treverse_in_order(visit)
+
+    def traverse_post_order(self, visit: Callable[[Any], None]):
+        self.root.treverse_post_order(visit)
+
+    def traverse_pre_order(self, visit: Callable[[Any], None]):
+        self.root.treverse_pre_order(visit)
+
+
+    def Level(self, root, value ,level):
+
+        if (root == None):
+            return 0
+
+        if (root.value == value):
+            return level
+
+        lower_level = Level(self.left_child, value, level + 1)
+        if (lower_level != 0):
+            return lower_level
+
+        lower_level = Level(self.right_child, value, level + 1)
+        return lower_level
+
+    def getLevel(self,drzewo,value):
+        return self.Level(drzewo,value,1)
+
+    def check_level(self,tree, first_node: BinaryNode, secend_node: BinaryNode)-> BinaryNode:
+
+        a = self.getLevel(tree,first_node)
+        b = self.getLevel(tree, secend_node)
+
+        if (a==b):
+            return True
+        return False
+
+
+
+    # def show(self):
+    #     pass
+    # def check_level(self,tree: BinaryTree, first_node: BinaryNode, secend_node: BinaryNode)-> BinaryNode:
+    # pass
+
+
+
+
+
+
+
+ten = BinaryNode(10)
+tree = BinaryTree(ten)
+nine = BinaryNode(9)
+one = BinaryNode(1)
+three = BinaryNode(3)
+two = BinaryNode(2)
+four = BinaryNode(4)
+six = BinaryNode(6)
+
+
+ten.add_right_child(two)
+ten.add_lef_child(nine)
+nine.add_lef_child(one)
+nine.add_right_child(three)
+two.add_lef_child(four)
+two.add_right_child(six)
+
+tree.getLevel(tree,nine)
+# tree.check_level(tree, nine, two)
+
+# assert tree.root.value == 10
+# assert tree.root.right_child.value == 2
+# assert tree.root.right_child.is_leaf() is False
+# assert tree.root.left_child.left_child.value == 1
+# assert tree.root.left_child.left_child.is_leaf() is True
