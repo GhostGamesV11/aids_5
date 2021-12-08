@@ -29,66 +29,93 @@ class BinaryNode:
         self.right_child = value
 
 
-    def treverse_in_order(self, visit:Callable[[Any],None]):
-        if visit == None:
-            return
+    # def treverse_in_order(self, visit:Callable[[Any],None]):
+    #     if visit == None:
+    #         return
+    #
+    #     if self.left_child:
+    #         self.left_child.traverse_post_order()
+    #
+    #     visit(self)
+    #
+    #     if self.right_child:
+    #         self.right_child.traverse_post_order()
+    #
+    #
+    #
+    #
+    # def traverse_post_order(self, visit: Callable[[Any], None]):
+    #     if visit == None:
+    #         return
+    #
+    #
+    #     if self.left_child:
+    #         self.left_child.traverse_post_order()
+    #
+    #     if self.right_child:
+    #         self.right_child.traverse_post_order()
+    #
+    #     visit(self)
+    #
+    #
+    #
+    # def traverse_pre_order(self, visit: Callable[[Any], None]):
+    #     if visit == None:
+    #         return
+    #
+    #     visit(self)
+    #
+    #     if self.left_child:
+    #         self.left_child.treverse_in_order()
+    #
+    #     if self.right_child:
+    #         self.right_child.treverse_in_order()
 
+
+    def treverse_in_order(self):
+        a = []
         if self.left_child:
-            self.left_child.traverse_post_order()
+            a += self.left_child.treverse_in_order()
 
-        visit(self)
+        a.append(self.value)
 
         if self.right_child:
-            self.right_child.traverse_post_order()
+            a += self.right_child.treverse_in_order()
 
+        return a
 
-
-
-    def traverse_post_order(self, visit: Callable[[Any], None]):
-        if visit == None:
-            return
-
-
+    def traverse_post_order(self):
+        a = []
         if self.left_child:
-            self.left_child.traverse_post_order()
+            a += self.left_child.treverse_in_order()
 
         if self.right_child:
-            self.right_child.traverse_post_order()
+            a += self.right_child.treverse_in_order()
 
-        visit(self)
+        a.append(self.value)
 
+        return a
 
+    def traverse_pre_order(self):
+        a = []
 
-    def traverse_pre_order(self, visit: Callable[[Any], None]):
-        if visit == None:
-            return
-
-        visit(self)
+        a.append(self.value)
 
         if self.left_child:
-            self.left_child.treverse_in_order()
+            a += self.left_child.treverse_in_order()
 
         if self.right_child:
-            self.right_child.treverse_in_order()
+            a += self.right_child.treverse_in_order()
 
-    # def Level(self, value ,level ):
-    #
-    #     if (self == None):
-    #         return 0
-    #
-    #     if (self.value == value):
-    #         return level
-    #
-    #     lower_level = Level(self.left_child, value, level + 1)
-    #     if (lower_level != 0):
-    #         return lower_level
-    #
-    #     lower_level = Level(self.right_child, value, level + 1)
-    #     return lower_level
-    #
-    # def getLevel(self, value):
-    #     # calls the function Level with default level 1
-    #     return Level(self, value, 1)
+        return a
+
+
+
+    def print(self):
+        print(self.treverse_in_order())
+
+
+
 
 class BinaryTree:
     root: BinaryNode
@@ -105,43 +132,36 @@ class BinaryTree:
     def traverse_pre_order(self, visit: Callable[[Any], None]):
         self.root.treverse_pre_order(visit)
 
+    def show(self):
+        pass
 
-    def Level(self, root, value ,level):
 
-        if (root == None):
+
+def check_level(tree, first_node: BinaryNode, secend_node: BinaryNode)-> BinaryNode:
+    def Level(node, value ,level ):
+        if (node == None):
             return 0
 
-        if (root.value == value):
+        if (node.root.value == value):
             return level
 
-        lower_level = Level(self.left_child, value, level + 1)
+        lower_level = Level(node.root.left_child, value, level + 1)
         if (lower_level != 0):
             return lower_level
 
-        lower_level = Level(self.right_child, value, level + 1)
+        lower_level = Level(node.root.right_child, value, level + 1)
         return lower_level
 
-    def getLevel(self,drzewo,value):
-        return self.Level(drzewo,value,1)
-
-    def check_level(self,tree, first_node: BinaryNode, secend_node: BinaryNode)-> BinaryNode:
-
-        a = self.getLevel(tree,first_node)
-        b = self.getLevel(tree, secend_node)
-
-        if (a==b):
-            return True
-        return False
+    def getLevel(node, value):
+        return Level(node, value, 1)
 
 
+    a = getLevel(tree,first_node)
+    b = getLevel(tree, secend_node)
 
-    # def show(self):
-    #     pass
-    # def check_level(self,tree: BinaryTree, first_node: BinaryNode, secend_node: BinaryNode)-> BinaryNode:
-    # pass
-
-
-
+    if (a==b):
+        return True
+    return False
 
 
 
@@ -156,6 +176,8 @@ four = BinaryNode(4)
 six = BinaryNode(6)
 
 
+
+
 ten.add_right_child(two)
 ten.add_lef_child(nine)
 nine.add_lef_child(one)
@@ -163,8 +185,11 @@ nine.add_right_child(three)
 two.add_lef_child(four)
 two.add_right_child(six)
 
-tree.getLevel(tree,nine)
-# tree.check_level(tree, nine, two)
+
+tree.root.print()
+
+
+
 
 # assert tree.root.value == 10
 # assert tree.root.right_child.value == 2
