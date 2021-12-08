@@ -142,26 +142,26 @@ def check_level(tree, first_node: BinaryNode, secend_node: BinaryNode)-> BinaryN
         if (node == None):
             return 0
 
-        if (node.root.value == value):
+        if (node.value == value):
             return level
 
-        lower_level = Level(node.root.left_child, value, level + 1)
+        lower_level = Level(node.left_child, value, level + 1)
         if (lower_level != 0):
             return lower_level
 
-        lower_level = Level(node.root.right_child, value, level + 1)
+        lower_level = Level(node.right_child, value, level + 1)
         return lower_level
 
     def getLevel(node, value):
         return Level(node, value, 1)
 
 
-    a = getLevel(tree,first_node)
-    b = getLevel(tree, secend_node)
+    a = getLevel(tree.root,first_node.value)
+    b = getLevel(tree.root, secend_node.value)
 
     if (a==b):
-        return True
-    return False
+        return print("Prawda że:",first_node," i ",secend_node,"są na tym samym poziomie")
+    return print("Fałsz że:",first_node," i ",secend_node,"są na tym samym poziomie")
 
 
 
@@ -186,7 +186,9 @@ two.add_lef_child(four)
 two.add_right_child(six)
 
 
-tree.root.print()
+# tree.root.print()
+
+check_level(tree,nine,one)
 
 
 
